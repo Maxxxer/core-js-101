@@ -228,7 +228,6 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  console.log(parseInt(value, 10));
   return typeof parseInt(value, 10) === 'number' && parseInt(value, 10) !== 'NaN' ? +value : def;
 }
 
