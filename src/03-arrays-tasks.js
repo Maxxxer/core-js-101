@@ -248,9 +248,11 @@ function toArrayOfSquares(arr) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
 function getMovingSum(arr) {
-  const result = [];
-  arr.reduce((sum, current) => result.push(sum + current));
-  return result;
+  let sum = 0;
+  return arr.map((item) => {
+    sum += item;
+    return sum;
+  });
 }
 
 /**
@@ -571,8 +573,7 @@ function selectMany(/* arr, childrenSelector */) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-  arr.map((item) => [indexes[item]]);
-  return arr[indexes[0]][indexes[1]];
+  return indexes.reduce((res, cur) => res[cur], arr);
 }
 
 
@@ -594,8 +595,10 @@ function getElementByIndexes(arr, indexes) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  return arr.slice(Math.ceil(arr.length / 2))
+    .concat(arr.slice(Math.floor(arr.length / 2), Math.ceil(arr.length / 2)))
+    .concat(arr.slice(0, Math.floor(arr.length / 2)));
 }
 
 
