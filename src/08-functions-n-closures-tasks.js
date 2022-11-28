@@ -66,8 +66,20 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-
+function getPolynom(...args) {
+  return function polynom(x) {
+    const arr = Array.from(args);
+    if (arr.length === 3) {
+      return args[0] * (x ** 2) + arr[1] * x + arr[2];
+    }
+    if (arr.length === 2) {
+      return arr[0] * x + arr[1];
+    }
+    if (arr.length === 1) {
+      return arr[0];
+    }
+    return null;
+  };
 }
 
 
