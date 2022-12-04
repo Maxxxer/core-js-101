@@ -174,8 +174,19 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let result = null;
+  const set = new Set();
+  for (let i = 0; i < str.length; i += 1) {
+    if (str.indexOf(str[i], i + 1) === -1) {
+      if (set.has(str[i])) { result = null; } else {
+        result = str[i];
+        break;
+      }
+    }
+    set.add(str[i]);
+  }
+  return result;
 }
 
 /**
@@ -258,8 +269,22 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let sum = 0;
+  const cardStr = ccn.toString();
+  const type = cardStr.length % 2 === 0 ? 'even' : 'odd';
+  for (let i = 0; i < cardStr.length; i += 1) {
+    let digit = +cardStr[i];
+    if (type === 'odd' ? i % 2 !== 0 : i % 2 === 0) {
+      digit *= 2;
+      if (digit > 9) {
+        const [digit1, digit2] = digit.toString().split('');
+        digit = +digit1 + +digit2;
+      }
+    }
+    sum += digit;
+  }
+  return sum % 10 === 0;
 }
 
 /**
@@ -309,9 +334,30 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    "'": "'",
+    '[': ']',
+    '{': '}',
+    '(': ')',
+    '<': '>',
+  };
+  const stack = [];
+  for (let i = 0; i < str.length; i += 1) {
+    if (Object.keys(brackets).includes(str[i])) {
+      stack.push(str[i]);
+    } else if (brackets[stack[stack.length - 1]] === str[i]) {
+      stack.pop();
+    } else {
+      return false;
+    }
+  }
+  if (stack.length > 0) {
+    return false;
+  }
+  return true;
 }
+
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -382,15 +428,19 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) { }
-// const result = [];
-// for (let i = 0; i < m1.length; i += 1) {
-//   const temp = [];
-//   for (let j = 0; j < i.length; j += 1) {
-//     const c = m1[i][j] * m2[j][i];
-//     }
-//   }
-// }
+function getMatrixProduct(m1, m2) {
+  const result = new Array(m1.length);
+  for (let i = 0; i < m1.length; i += 1) {
+    result[i] = new Array(m2[0].length);
+    for (let j = 0; j < m2[0].length; j += 1) {
+      result[i][j] = 0;
+      for (let y = 0; y < m1[0].length; y += 1) {
+        result[i][j] += m1[i][y] * m2[y][j];
+      }
+    }
+  }
+  return result;
+}
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
