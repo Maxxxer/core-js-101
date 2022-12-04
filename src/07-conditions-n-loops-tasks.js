@@ -278,8 +278,7 @@ function isCreditCardNumber(ccn) {
     if (type === 'odd' ? i % 2 !== 0 : i % 2 === 0) {
       digit *= 2;
       if (digit > 9) {
-        const [digit1, digit2] = digit.toString().split('');
-        digit = +digit1 + +digit2;
+        digit = digit.toString().split('').reduce((acc, dig) => +acc + +dig, 0);
       }
     }
     sum += digit;
